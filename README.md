@@ -1,26 +1,26 @@
-What is Qtum?
+What is Agricoin?
 -------------
 
-Qtum is a decentralized blockchain project built on Bitcoin's UTXO model, with support for Ethereum Virtual Machine based smart contracts, and secured by a proof of stake consensus model. It achieves this through the revolutionary Account Abstraction Layer which allows the EVM to communicate with Qtum's Bitcoin-like UTXO blockchain. For more general information about Qtum as well as links to join our community, go to https://qtum.org
+Agricoin is a decentralized blockchain project built on Bitcoin's UTXO model, with support for Ethereum Virtual Machine based smart contracts, and secured by a proof of stake consensus model cloned from Agricoin. It achieves this through the revolutionary Account Abstraction Layer which allows the EVM to communicate with Agricoin's Bitcoin-like UTXO blockchain. 
 
-Welcome to the Qtum Ignition Main Network. This is the main network where the tokens hold value and should be guarded very carefully. If you are testing the network, or developing unstable software on Qtum, we highly recommend using either testnet or regtest mode. 
+Welcome to the Agricoin Ignition Main Network. This is the main network where the tokens hold value and should be guarded very carefully. If you are testing the network, or developing unstable software on Agricoin, we highly recommend using either testnet or regtest mode. 
 
-The major features of the Qtum network include:
+The major features of the Agricoin network include:
 
-1. Compatibility with the Ethereum Virtual Machine, which allows for compatibility with most existing Solidity based smart contracts. No special solidity compiler is required to deploy your smart contract to Qtum. 
-2. A Proof of Stake consensus system which is optimized for Qtum's contract model. Any user can stake and help to secure the network. There is no voting, master nodes, or minimum amount required. There have been transactions as small as 2 Qtum that have created blocks in the past. 
+1. Compatibility with the Ethereum Virtual Machine, which allows for compatibility with most existing Solidity based smart contracts. No special solidity compiler is required to deploy your smart contract to Agricoin. 
+2. A Proof of Stake consensus system which is optimized for Agricoin's contract model. Any user can stake and help to secure the network. There is no voting, master nodes, or minimum amount required. There have been transactions as small as 2 Agricoin that have created blocks in the past. 
 3. The Decentralized Governance Protocol is completely implemented and functional, which allows certain network parameters to be modified without a fork or other network disruption. This currently controls parameters like block size, gas prices, etc. 
-4. Uses the UTXO transaction model and is compatible with Bitcoin, allowing for existing tooling and workflows to be used with Qtum. This allows for the infamous SPV protocol to be used which is ideal for light wallets on mobile phones and IoT devices.
+4. Uses the UTXO transaction model and is compatible with Bitcoin, allowing for existing tooling and workflows to be used with Agricoin. This allows for the infamous SPV protocol to be used which is ideal for light wallets on mobile phones and IoT devices.
 
-Note: Qtum Core is considered beta software. We make no warranties or guarantees of its security or stability.
+Note: Agricoin Core is considered beta software. We make no warranties or guarantees of its security or stability.
 
-Qtum Documentation and Usage Resources
+Agricoin Documentation and Usage Resources (TODO)
 ---------------
+##
+These are some resources that might be helpful in understanding Agricoin. Note that the unofficial documents are not created by the Agricoin team.
 
-These are some resources that might be helpful in understanding Qtum. Note that the unofficial documents are not created by the Qtum team.
-
-Basic usage resources:
-
+Basic usage resources (TODO):
+<!---  
 * [Official Qtum Usage Guide](https://github.com/qtumproject/qtum/wiki/Qtum-Wallet-Tutorial)
 * [Unofficial Qtum staking tutorial](https://steemit.com/qtum/@cryptominder/qtum-staking-tutorial-using-qtum-qt)
 * [Unofficial Qtum staking tutorial on Raspberry Pi](https://steemit.com/qtum/@cryptominder/qtum-staking-tutorial-using-qtumd-on-a-raspberry-pi-3)
@@ -42,10 +42,11 @@ General Info about Qtum:
 * [Qtum's PoS vs CASPER](https://www.reddit.com/r/Qtum/comments/788oa5/qtums_pos_vs_casper_and_the_nothingatstake_problem/)
 * [Technical article explaining Qtum's PoS model in depth](http://earlz.net/view/2017/07/27/1904/the-missing-explanation-of-proof-of-stake-version)
 * [Unofficial What is Qtum article](https://storeofvalue.github.io/posts/what-is-qtum-without-the-bullshit/)
+---> 
 
 Developer's Tools
 -----------------
-
+<!--- 
 * Smart contract deployment tool
   * https://github.com/qtumproject/solar
 * DApp JavaScript Library
@@ -58,56 +59,58 @@ Developer's Tools
   * https://github.com/qtumproject/qtum-docker
 * HTTP API that powers the block explorer and the QTUM web wallet
   * https://github.com/qtumproject/insight-api
+---> 
 
-
-What is Qtum Core?
+What is Agricoin Core?
 ------------------
 
-Qtum Core is our primary mainnet wallet. It implements a full node and is capable of storing, validating, and distributing all history of the Qtum network. Qtum Core is considered the reference implementation for the Qtum network. 
+Agricoin Core is our primary mainnet wallet. It implements a full node and is capable of storing, validating, and distributing all history of the Agricoin network. Agricoin Core is considered the reference implementation for the Agricoin network. 
 
-Qtum Core currently implements the following:
+Agricoin Core currently implements the following:
 
-* Sending/Receiving Qtum
-* Sending/Receiving QRC20 tokens on the Qtum network
-* Staking and creating blocks for the Qtum network
+* Sending/Receiving Agricoin
+* Sending/Receiving QRC20 tokens on the Agricoin network
+* Staking and creating blocks for the Agricoin network
 * Creating and interacting with smart contracts
 * Running a full node for distributing the blockchain to other users
 * "Prune" mode, which minimizes disk usage
-* Regtest mode, which enables developers to very quickly build their own private Qtum network for Dapp testing
+* Regtest mode, which enables developers to very quickly build their own private Agricoin network for Dapp testing
 * Compatibility with the Bitcoin Core set of RPC commands and APIs
 
 Alternative Wallets
 -------------------
 
-Qtum Core uses a full node model, and thus requires downloading the entire blockchain. If you do not need the entire blockchain, and do not intend on developing smart contracts, it may be more ideal to use an alternative wallet such as one of our light wallets that can be synchronized in a matter of seconds. 
+Agricoin Core uses a full node model, and thus requires downloading the entire blockchain. If you do not need the entire blockchain, and do not intend on developing smart contracts, it may be more ideal to use an alternative wallet such as one of our light wallets that can be synchronized in a matter of seconds. 
 
-### Qtum Electrum
+### Agricoin Electrum
 
 A light wallet that supports the Ledger hardware wallet and is based on the well known Electrum wallet software. 
-
+<!--- 
 Download: https://github.com/qtumproject/qtum-electrum/releases
+---> 
 
 ### iOS and Android Wallets
 
 These wallets run on mobile devices and synchronize quickly. 
-
+<!--- 
 Android Download: https://play.google.com/store/apps/details?id=org.qtum.wallet
 
 iOS Download: https://github.com/qtumproject/qtum-ios (open source, we are still working with Apple to get approval for their app store)
+---> 
 
 ### Ledger Chrome Wallet
 
 This light wallet runs in your Chrome browser as a browser extension. This wallet requires a Ledger device to use.
-
+<!--- 
 How to install: https://ledger.zendesk.com/hc/en-us/articles/115003776913-How-to-install-and-use-Qtum-with-Ledger
+---> 
 
-
-Building Qtum Core
+Building Agricoin Core
 ----------
 
 ### Build on Ubuntu
 
-    This is a quick start script for compiling Qtum on  Ubuntu
+    This is a quick start script for compiling Agricoin on  Ubuntu
 
 
     sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake libboost-all-dev
@@ -129,7 +132,7 @@ Building Qtum Core
     
 ### Build on CentOS
 
-Here is a brief description for compiling Qtum on CentOS, for more details please refer to [the specific document](https://github.com/qtumproject/qtum/blob/master/doc/build-unix.md)
+Here is a brief description for compiling Agricoin on CentOS, for more details please refer to [the specific document](https://github.com/qtumproject/qtum/blob/master/doc/build-unix.md)
 
     # Compiling boost manually
     sudo yum install python-devel bzip2-devel
@@ -141,14 +144,14 @@ Here is a brief description for compiling Qtum on CentOS, for more details pleas
     ./b2 headers
     sudo ./b2 -j4 install
     
-    # Installing Dependencies for Qtum
+    # Installing Dependencies for Agricoin
     sudo yum install epel-release
     sudo yum install libtool libdb4-cxx-devel openssl-devel libevent-devel
     
     # If you want to build the Qt GUI:
     sudo yum install qt5-qttools-devel protobuf-devel qrencode-devel
     
-    # Building Qtum
+    # Building Agricoin
     git clone --recursive https://github.com/qtumproject/qtum.git
     cd qtum
     ./autogen.sh
@@ -176,11 +179,11 @@ Then install [Homebrew](https://brew.sh).
 
 NOTE: Building with Qt4 is still supported, however, could result in a broken UI. Building with Qt5 is recommended.
 
-#### Build Qtum Core
+#### Build Agricoin Core
 
-1. Clone the qtum source code and cd into `qtum`
+1. Clone the agricoin source code and cd into `agricoin`
 
-        git clone --recursive https://github.com/qtumproject/qtum.git
+        git clone --recursive https://github.com/Agricoin/agricoin.git
         cd qtum
 
 2.  Build qtum-core:
@@ -201,19 +204,19 @@ NOTE: Building with Qt4 is still supported, however, could result in a broken UI
 
 Then you can either run the command-line daemon using `src/qtumd` and `src/qtum-cli`, or you can run the Qt GUI using `src/qt/qtum-qt`
 
-For in-depth description of Sparknet and how to use Qtum for interacting with contracts, please see [sparknet-guide](doc/sparknet-guide.md).
+For in-depth description of Sparknet and how to use Agricoin for interacting with contracts, please see [sparknet-guide](doc/sparknet-guide.md).
 
 License
 -------
 
-Qtum is GPLv3 licensed.
+Agricoin is GPLv3 licensed.
 
 Development Process
 -------------------
 
 The `master` branch is regularly built and tested, but is not guaranteed to be
 completely stable. [Tags](https://github.com/qtumproject/qtum/tags) are created
-regularly to indicate new official, stable release versions of Qtum.
+regularly to indicate new official, stable release versions of Agricoin.
 
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
