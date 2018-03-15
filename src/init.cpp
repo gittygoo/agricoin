@@ -192,7 +192,7 @@ void Shutdown()
     /// for example if the data directory was found to be locked.
     /// Be sure that anything that writes files or flushes caches only does this if the respective
     /// module was initialized.
-    RenameThread("qtum-shutoff");
+    RenameThread("agricoin-shutoff");
     mempool.AddTransactionsUpdated(1);
 
     StopHTTPRPC();
@@ -202,7 +202,7 @@ void Shutdown()
 #ifdef ENABLE_WALLET
     if (pwalletMain)
     {
-        StakeQtums(false, pwalletMain);
+        StakeAgricoins(false, pwalletMain);
         pwalletMain->Flush(false);
     }
 #endif
@@ -523,8 +523,8 @@ std::string HelpMessage(HelpMessageMode mode)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/qtumproject/qtum>";
-    const std::string URL_WEBSITE = "<https://qtum.org>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/agricoinproject/agricoin>";
+    const std::string URL_WEBSITE = "<https://agricoin.org>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i"), COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
@@ -805,7 +805,7 @@ void InitLogging()
     fLogIPs = GetBoolArg("-logips", DEFAULT_LOGIPS);
 
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("Qtum version %s\n", FormatFullVersion());
+    LogPrintf("Agricoin version %s\n", FormatFullVersion());
 }
 
 namespace { // Variables internal to initialization process only
@@ -1188,7 +1188,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (fPrintToDebugLog)
         OpenDebugLog();
 
-////////////////////////////////////////////////////////////////////// // qtum
+////////////////////////////////////////////////////////////////////// // agricoin
     dev::g_logPost = [&](std::string const& s, char const* c){ LogPrintStr(s + '\n', true); };
     dev::g_logPost(std::string("\n\n\n\n\n\n\n\n\n\n"), NULL);
 //////////////////////////////////////////////////////////////////////
@@ -1469,7 +1469,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
                 pcoinsTip = new CCoinsViewCache(pcoinscatcher);
 
                 if (fReindex) {
-                    boost::filesystem::path stateDir = GetDataDir() / "stateQtum";
+                    boost::filesystem::path stateDir = GetDataDir() / "stateAgricoin";
                     StorageResults storageRes(stateDir.string());
                     storageRes.wipeResults();
                     pblocktree->WriteReindexing(true);
@@ -1494,7 +1494,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
                 if (!mapBlockIndex.empty() && mapBlockIndex.count(chainparams.GetConsensus().hashGenesisBlock) == 0)
                     return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
 
-                /////////////////////////////////////////////////////////// qtum
+                /////////////////////////////////////////////////////////// agricoin
                 if((IsArgSet("-dgpstorage") && IsArgSet("-dgpevm")) || (!IsArgSet("-dgpstorage") && IsArgSet("-dgpevm")) ||
                   (!IsArgSet("-dgpstorage") && !IsArgSet("-dgpevm"))){
                     fGettingValuesDGP = true;
@@ -1504,17 +1504,17 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
                 dev::eth::Ethash::init();
 
-                boost::filesystem::path qtumStateDir = GetDataDir() / "stateQtum";
+                boost::filesystem::path agricoinStateDir = GetDataDir() / "stateAgricoin";
 
-                bool fStatus = boost::filesystem::exists(qtumStateDir);
-                const std::string dirQtum(qtumStateDir.string());
+                bool fStatus = boost::filesystem::exists(agricoinStateDir);
+                const std::string dirAgricoin(agricoinStateDir.string());
                 const dev::h256 hashDB(dev::sha3(dev::rlp("")));
-                dev::eth::BaseState existsQtumstate = fStatus ? dev::eth::BaseState::PreExisting : dev::eth::BaseState::Empty;
-                globalState = std::unique_ptr<QtumState>(new QtumState(dev::u256(0), QtumState::openDB(dirQtum, hashDB, dev::WithExisting::Trust), dirQtum, existsQtumstate));
-                dev::eth::ChainParams cp((dev::eth::genesisInfo(dev::eth::Network::qtumMainNetwork)));
+                dev::eth::BaseState existsAgricoinstate = fStatus ? dev::eth::BaseState::PreExisting : dev::eth::BaseState::Empty;
+                globalState = std::unique_ptr<AgricoinState>(new AgricoinState(dev::u256(0), AgricoinState::openDB(dirAgricoin, hashDB, dev::WithExisting::Trust), dirAgricoin, existsAgricoinstate));
+                dev::eth::ChainParams cp((dev::eth::genesisInfo(dev::eth::Network::agricoinMainNetwork)));
                 globalSealEngine = std::unique_ptr<dev::eth::SealEngineFace>(cp.createSealEngine());
 
-                pstorageresult = new StorageResults(qtumStateDir.string());
+                pstorageresult = new StorageResults(agricoinStateDir.string());
 
                 if(chainActive.Tip() != NULL){
                     globalState->setRoot(uintToh256(chainActive.Tip()->hashStateRoot));
@@ -1746,7 +1746,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (!GetBoolArg("-staking", DEFAULT_STAKE))
         LogPrintf("Staking disabled\n");
     else if (pwalletMain)
-        StakeQtums(true, pwalletMain);
+        StakeAgricoins(true, pwalletMain);
 #endif
     // ********************************************************* Step 12: finished
 

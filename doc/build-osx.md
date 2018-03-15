@@ -24,18 +24,18 @@ In case you want to build the disk image with `make deploy` (.dmg / optional), y
 
 NOTE: Building with Qt4 is still supported, however, could result in a broken UI. Building with Qt5 is recommended.
 
-Build Build Qtum Core
+Build Build Agricoin Core
 ------------------------
 
-1. Clone the qtum source code and cd into `qtum`
+1. Clone the agricoin source code and cd into `agricoin`
 
-        git clone --recursive https://github.com/qtumproject/qtum.git
-        cd qtum
+        git clone --recursive https://github.com/agricoinproject/agricoin.git
+        cd agricoin
         git submodule update --init --recursive
 
-2.  Build qtum-core:
+2.  Build agricoin-core:
 
-    Configure and build the headless qtum binaries as well as the GUI (if Qt is found).
+    Configure and build the headless agricoin binaries as well as the GUI (if Qt is found).
 
     You can disable the GUI build by passing `--without-gui` to configure.
 

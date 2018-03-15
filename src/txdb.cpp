@@ -21,7 +21,7 @@ static const char DB_BLOCK_FILES = 'f';
 static const char DB_TXINDEX = 't';
 static const char DB_BLOCK_INDEX = 'b';
 
-////////////////////////////////////////// // qtum
+////////////////////////////////////////// // agricoin
 static const char DB_HEIGHTINDEX = 'h';
 static const char DB_STAKEINDEX = 's';
 //////////////////////////////////////////
@@ -216,7 +216,7 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
     return true;
 }
 
-/////////////////////////////////////////////////////// // qtum
+/////////////////////////////////////////////////////// // agricoin
 bool CBlockTreeDB::WriteHeightIndex(const CHeightTxIndexKey &heightIndex, const std::vector<uint256>& hash) {
     CDBBatch batch(*this);
     batch.Write(std::make_pair(DB_HEIGHTINDEX, heightIndex), hash);
@@ -417,11 +417,11 @@ bool CBlockTreeDB::LoadBlockIndexGuts(boost::function<CBlockIndex*(const uint256
                 pindexNew->nMoneySupply   = diskindex.nMoneySupply;
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
-                pindexNew->hashStateRoot  = diskindex.hashStateRoot; // qtum
-                pindexNew->hashUTXORoot   = diskindex.hashUTXORoot; // qtum
+                pindexNew->hashStateRoot  = diskindex.hashStateRoot; // agricoin
+                pindexNew->hashUTXORoot   = diskindex.hashUTXORoot; // agricoin
                 pindexNew->nStakeModifier = diskindex.nStakeModifier;
                 pindexNew->prevoutStake   = diskindex.prevoutStake;
-                pindexNew->vchBlockSig    = diskindex.vchBlockSig; // qtum
+                pindexNew->vchBlockSig    = diskindex.vchBlockSig; // agricoin
 
                 if (!CheckIndexProof(*pindexNew, Params().GetConsensus()))
                     return error("LoadBlockIndex(): CheckIndexProof failed: %s", pindexNew->ToString());

@@ -1,14 +1,14 @@
 *.tar.gz
 
 *.exe
-src/qtum-cli
-src/qtum-tx
-src/qtumd
-src/bench/bench_qtum
-src/qt/qtum-qt
-src/qt/test/test_qtum-qt
-src/test/test_qtum
-src/test/test_qtum_fuzzy
+src/agricoin-cli
+src/agricoin-tx
+src/agricoind
+src/bench/bench_agricoin
+src/qt/agricoin-qt
+src/qt/test/test_agricoin-qt
+src/test/test_agricoin
+src/test/test_agricoin_fuzzy
 
 # autoreconf
 Makefile.in

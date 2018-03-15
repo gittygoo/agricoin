@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Bitcoin Core
-Comment=Connect to the Qtum P2P Network
-Exec=qtum-qt %u
+Comment=Connect to the Agricoin P2P Network
+Exec=agricoin-qt %u
 Terminal=false
 Type=Application
-Icon=qtum128
-MimeType=x-scheme-handler/qtum;
+Icon=agricoin128
+MimeType=x-scheme-handler/agricoin;
 Categories=Office;Finance;

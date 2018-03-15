@@ -4,15 +4,15 @@ from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 from test_framework.address import *
 from test_framework.blocktools import *
 import io
 
 """
-Note, these tests do not test the functionality of the DGP template contract itself, for tests for the DGP template, see qtum-dgp.py
+Note, these tests do not test the functionality of the DGP template contract itself, for tests for the DGP template, see agricoin-dgp.py
 """
-class QtumDGPBlockSizeSyncTest(BitcoinTestFramework):
+class AgricoinDGPBlockSizeSyncTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -136,4 +136,4 @@ class QtumDGPBlockSizeSyncTest(BitcoinTestFramework):
         self.sync_all()
 
 if __name__ == '__main__':
-    QtumDGPBlockSizeSyncTest().main()
+    AgricoinDGPBlockSizeSyncTest().main()

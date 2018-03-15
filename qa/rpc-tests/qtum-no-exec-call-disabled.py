@@ -5,7 +5,7 @@ from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
 from test_framework.address import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 from test_framework.blocktools import *
 import sys
 import random
@@ -19,7 +19,7 @@ def rpc_sign_transaction(node, tx):
     tx_signed.deserialize(f)
     return tx_signed
 
-class QtumNoExecCallDisabledTest(BitcoinTestFramework):
+class AgricoinNoExecCallDisabledTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -50,7 +50,7 @@ class QtumNoExecCallDisabledTest(BitcoinTestFramework):
         tx = rpc_sign_transaction(self.node, tx)
         assert_raises(JSONRPCException, self.node.sendrawtransaction, bytes_to_hex_str(tx.serialize()))
 
-        tx.vout = [CTxOut(int(COIN), scriptPubKey=CScript([b"\x00", CScriptNum(100000), CScriptNum(QTUM_MIN_GAS_PRICE), b"\x00", hex_str_to_bytes(contract_address), OP_CALL]))]
+        tx.vout = [CTxOut(int(COIN), scriptPubKey=CScript([b"\x00", CScriptNum(100000), CScriptNum(AGRICOIN_MIN_GAS_PRICE), b"\x00", hex_str_to_bytes(contract_address), OP_CALL]))]
         tx = rpc_sign_transaction(self.node, tx)
         assert_raises(JSONRPCException, self.node.sendrawtransaction, bytes_to_hex_str(tx.serialize()))
 
@@ -74,4 +74,4 @@ class QtumNoExecCallDisabledTest(BitcoinTestFramework):
 
 
 if __name__ == '__main__':
-    QtumNoExecCallDisabledTest().main()
+    AgricoinNoExecCallDisabledTest().main()

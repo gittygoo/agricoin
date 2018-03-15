@@ -21,44 +21,44 @@ These are some resources that might be helpful in understanding Agricoin. Note t
 
 Basic usage resources (TODO):
 <!---  
-* [Official Qtum Usage Guide](https://github.com/qtumproject/qtum/wiki/Qtum-Wallet-Tutorial)
-* [Unofficial Qtum staking tutorial](https://steemit.com/qtum/@cryptominder/qtum-staking-tutorial-using-qtum-qt)
-* [Unofficial Qtum staking tutorial on Raspberry Pi](https://steemit.com/qtum/@cryptominder/qtum-staking-tutorial-using-qtumd-on-a-raspberry-pi-3)
-* [Unofficial guide for keeping your wallet safe](https://steemit.com/qtum/@cryptominder/encrypting-backing-up-and-restoring-your-qtum-wallet)
-* [Block explorer](https://explorer.qtum.org)
-* [Unofficial block explorer](https://qtumexplorer.io/)
-* [Unofficial Raspberry Pi Web UI](https://github.com/rpiwalletui/qtum-ui)
+* [Official Agricoin Usage Guide](https://github.com/agricoinproject/agricoin/wiki/Agricoin-Wallet-Tutorial)
+* [Unofficial Agricoin staking tutorial](https://steemit.com/agricoin/@cryptominder/agricoin-staking-tutorial-using-agricoin-qt)
+* [Unofficial Agricoin staking tutorial on Raspberry Pi](https://steemit.com/agricoin/@cryptominder/agricoin-staking-tutorial-using-agricoind-on-a-raspberry-pi-3)
+* [Unofficial guide for keeping your wallet safe](https://steemit.com/agricoin/@cryptominder/encrypting-backing-up-and-restoring-your-agricoin-wallet)
+* [Block explorer](https://explorer.agricoin.org)
+* [Unofficial block explorer](https://agricoinexplorer.io/)
+* [Unofficial Raspberry Pi Web UI](https://github.com/rpiwalletui/agricoin-ui)
 
 Development resources:
 
-* [Deploying a custom token to Qtum](https://blog.qtum.org/qtum-custom-token-walkthrough-467d725fa27d)
-* [Early example faucet contract](http://earlz.net/view/2017/06/30/2144/the-qtum-sparknet-faucet)
-* [Unofficial Qtum Hello World tutorial](https://steemit.com/qtum/@cryptominder/quantum-qtum-blockchain-developer-tutorial-hello-world)
-* [Qtum Book - A Developer's Guide To QTUM](https://github.com/qtumproject/qtumbook)
+* [Deploying a custom token to Agricoin](https://blog.agricoin.org/agricoin-custom-token-walkthrough-467d725fa27d)
+* [Early example faucet contract](http://earlz.net/view/2017/06/30/2144/the-agricoin-sparknet-faucet)
+* [Unofficial Agricoin Hello World tutorial](https://steemit.com/agricoin/@cryptominder/quantum-agricoin-blockchain-developer-tutorial-hello-world)
+* [Agricoin Book - A Developer's Guide To AGRICOIN](https://github.com/agricoinproject/agricoinbook)
 
-General Info about Qtum:
+General Info about Agricoin:
 
-* [Mainnet event AMA](https://www.reddit.com/r/Qtum/comments/6zs8t0/official_qtum_ama_thread_starts_at_10pm_beijing/)
-* [Qtum's PoS vs CASPER](https://www.reddit.com/r/Qtum/comments/788oa5/qtums_pos_vs_casper_and_the_nothingatstake_problem/)
-* [Technical article explaining Qtum's PoS model in depth](http://earlz.net/view/2017/07/27/1904/the-missing-explanation-of-proof-of-stake-version)
-* [Unofficial What is Qtum article](https://storeofvalue.github.io/posts/what-is-qtum-without-the-bullshit/)
+* [Mainnet event AMA](https://www.reddit.com/r/Agricoin/comments/6zs8t0/official_agricoin_ama_thread_starts_at_10pm_beijing/)
+* [Agricoin's PoS vs CASPER](https://www.reddit.com/r/Agricoin/comments/788oa5/agricoins_pos_vs_casper_and_the_nothingatstake_problem/)
+* [Technical article explaining Agricoin's PoS model in depth](http://earlz.net/view/2017/07/27/1904/the-missing-explanation-of-proof-of-stake-version)
+* [Unofficial What is Agricoin article](https://storeofvalue.github.io/posts/what-is-agricoin-without-the-bullshit/)
 ---> 
 
 Developer's Tools
 -----------------
 <!--- 
 * Smart contract deployment tool
-  * https://github.com/qtumproject/solar
+  * https://github.com/agricoinproject/solar
 * DApp JavaScript Library
-  * https://github.com/qtumproject/qtumjs
-* A toolkit for building qtum light wallets
-  * https://github.com/qtumproject/qtumjs-wallet
-* CORS qtumd RPC proxy for DApp
-  * https://github.com/qtumproject/qtumportal
-* Docker images for running qtum services
-  * https://github.com/qtumproject/qtum-docker
-* HTTP API that powers the block explorer and the QTUM web wallet
-  * https://github.com/qtumproject/insight-api
+  * https://github.com/agricoinproject/agricoinjs
+* A toolkit for building agricoin light wallets
+  * https://github.com/agricoinproject/agricoinjs-wallet
+* CORS agricoind RPC proxy for DApp
+  * https://github.com/agricoinproject/agricoinportal
+* Docker images for running agricoin services
+  * https://github.com/agricoinproject/agricoin-docker
+* HTTP API that powers the block explorer and the AGRICOIN web wallet
+  * https://github.com/agricoinproject/insight-api
 ---> 
 
 What is Agricoin Core?
@@ -86,23 +86,23 @@ Agricoin Core uses a full node model, and thus requires downloading the entire b
 
 A light wallet that supports the Ledger hardware wallet and is based on the well known Electrum wallet software. 
 <!--- 
-Download: https://github.com/qtumproject/qtum-electrum/releases
+Download: https://github.com/agricoinproject/agricoin-electrum/releases
 ---> 
 
 ### iOS and Android Wallets
 
 These wallets run on mobile devices and synchronize quickly. 
 <!--- 
-Android Download: https://play.google.com/store/apps/details?id=org.qtum.wallet
+Android Download: https://play.google.com/store/apps/details?id=org.agricoin.wallet
 
-iOS Download: https://github.com/qtumproject/qtum-ios (open source, we are still working with Apple to get approval for their app store)
+iOS Download: https://github.com/agricoinproject/agricoin-ios (open source, we are still working with Apple to get approval for their app store)
 ---> 
 
 ### Ledger Chrome Wallet
 
 This light wallet runs in your Chrome browser as a browser extension. This wallet requires a Ledger device to use.
 <!--- 
-How to install: https://ledger.zendesk.com/hc/en-us/articles/115003776913-How-to-install-and-use-Qtum-with-Ledger
+How to install: https://ledger.zendesk.com/hc/en-us/articles/115003776913-How-to-install-and-use-Agricoin-with-Ledger
 ---> 
 
 Building Agricoin Core
@@ -122,8 +122,8 @@ Building Agricoin Core
     # If you want to build the Qt GUI:
     sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler qrencode
 
-    git clone https://github.com/qtumproject/qtum --recursive
-    cd qtum
+    git clone https://github.com/agricoinproject/agricoin --recursive
+    cd agricoin
 
     # Note autogen will prompt to install some more dependencies if needed
     ./autogen.sh
@@ -132,7 +132,7 @@ Building Agricoin Core
     
 ### Build on CentOS
 
-Here is a brief description for compiling Agricoin on CentOS, for more details please refer to [the specific document](https://github.com/qtumproject/qtum/blob/master/doc/build-unix.md)
+Here is a brief description for compiling Agricoin on CentOS, for more details please refer to [the specific document](https://github.com/agricoinproject/agricoin/blob/master/doc/build-unix.md)
 
     # Compiling boost manually
     sudo yum install python-devel bzip2-devel
@@ -152,8 +152,8 @@ Here is a brief description for compiling Agricoin on CentOS, for more details p
     sudo yum install qt5-qttools-devel protobuf-devel qrencode-devel
     
     # Building Agricoin
-    git clone --recursive https://github.com/qtumproject/qtum.git
-    cd qtum
+    git clone --recursive https://github.com/agricoinproject/agricoin.git
+    cd agricoin
     ./autogen.sh
     ./configure
     make -j4
@@ -184,11 +184,11 @@ NOTE: Building with Qt4 is still supported, however, could result in a broken UI
 1. Clone the agricoin source code and cd into `agricoin`
 
         git clone --recursive https://github.com/Agricoin/agricoin.git
-        cd qtum
+        cd agricoin
 
-2.  Build qtum-core:
+2.  Build agricoin-core:
 
-    Configure and build the headless qtum binaries as well as the GUI (if Qt is found).
+    Configure and build the headless agricoin binaries as well as the GUI (if Qt is found).
 
     You can disable the GUI build by passing `--without-gui` to configure.
 
@@ -202,7 +202,7 @@ NOTE: Building with Qt4 is still supported, however, could result in a broken UI
 
 ### Run
 
-Then you can either run the command-line daemon using `src/qtumd` and `src/qtum-cli`, or you can run the Qt GUI using `src/qt/qtum-qt`
+Then you can either run the command-line daemon using `src/agricoind` and `src/agricoin-cli`, or you can run the Qt GUI using `src/qt/agricoin-qt`
 
 For in-depth description of Sparknet and how to use Agricoin for interacting with contracts, please see [sparknet-guide](doc/sparknet-guide.md).
 
@@ -215,12 +215,12 @@ Development Process
 -------------------
 
 The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/qtumproject/qtum/tags) are created
+completely stable. [Tags](https://github.com/agricoinproject/agricoin/tags) are created
 regularly to indicate new official, stable release versions of Agricoin.
 
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Developer IRC can be found on Freenode at #qtum-dev.
+Developer IRC can be found on Freenode at #agricoin-dev.
 
 Testing
 -------

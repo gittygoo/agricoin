@@ -5,12 +5,12 @@ from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
 from test_framework.blocktools import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 
 """
  This test specifically tests that inputs to transactions in the mempool are not used in staking.
 """
-class QtumPOSConflictingStakingMempoolTxTest(BitcoinTestFramework):
+class AgricoinPOSConflictingStakingMempoolTxTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 2
@@ -58,7 +58,7 @@ class QtumPOSConflictingStakingMempoolTxTest(BitcoinTestFramework):
         time_until_next_valid_block = int(self.nodes[0].getblock(self.nodes[0].getbestblockhash())['time'] - 16)
         self.nodes[0].setmocktime(time_until_next_valid_block)
 
-        # Allow the qtum staker some time to run (since we set a mocktime the time will not advance)
+        # Allow the agricoin staker some time to run (since we set a mocktime the time will not advance)
         time.sleep(80)
 
         # Now the staker will have found a valid staking block and is waiting to publish it to the network
@@ -105,4 +105,4 @@ class QtumPOSConflictingStakingMempoolTxTest(BitcoinTestFramework):
         assert_equal(int(self.nodes[0].getbalance()*COIN), int(20*20000*COIN))
 
 if __name__ == '__main__':
-    QtumPOSConflictingStakingMempoolTxTest().main()
+    AgricoinPOSConflictingStakingMempoolTxTest().main()

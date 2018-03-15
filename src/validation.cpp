@@ -52,20 +52,20 @@
 #include <boost/thread.hpp>
 
 #if defined(NDEBUG)
-# error "Qtum cannot be compiled without assertions."
+# error "Agricoin cannot be compiled without assertions."
 #endif
 
 /**
  * Global state
  */
 
- ////////////////////////////// qtum
+ ////////////////////////////// agricoin
 #include <iostream>
 #include <bitset>
 #include "pubkey.h"
 #include <univalue.h>
 
-std::unique_ptr<QtumState> globalState;
+std::unique_ptr<AgricoinState> globalState;
 std::shared_ptr<dev::eth::SealEngineFace> globalSealEngine;
 bool fRecordLogOpcodes = false;
 bool fIsVMlogFile = false;
@@ -109,7 +109,7 @@ static bool UpdateHashProof(const CBlock& block, CValidationState& state, const 
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const std::string strMessageMagic = "Qtum Signed Message:\n";
+const std::string strMessageMagic = "Agricoin Signed Message:\n";
 
 // Internal stuff
 namespace {
@@ -521,7 +521,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state, bool fChe
         return state.DoS(10, false, REJECT_INVALID, "bad-txns-vout-empty");
     // Size limits (this doesn't take the witness into account, as that hasn't been checked for malleability)
     if (::GetSerializeSize(tx, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > MAX_TRANSACTION_BASE_SIZE ||
-        ::GetSerializeSize(tx, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > dgpMaxBlockSize) // qtum
+        ::GetSerializeSize(tx, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > dgpMaxBlockSize) // agricoin
         return state.DoS(100, false, REJECT_INVALID, "bad-txns-oversize");
 
     // Check for negative or overflow output values
@@ -537,7 +537,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state, bool fChe
         if (!MoneyRange(nValueOut))
             return state.DoS(100, false, REJECT_INVALID, "bad-txns-txouttotal-toolarge");
 
-        /////////////////////////////////////////////////////////// // qtuma
+        /////////////////////////////////////////////////////////// // agricoina
         if (txout.scriptPubKey.HasOpCall() || txout.scriptPubKey.HasOpCreate()) {
             std::vector<valtype> vSolutions;
             txnouttype whichType;
@@ -759,31 +759,31 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
         CAmount nFees = nValueIn-nValueOut;
         dev::u256 txMinGasPrice = 0;
 
-        //////////////////////////////////////////////////////////// // qtum
+        //////////////////////////////////////////////////////////// // agricoin
         if(tx.HasCreateOrCall()){
 
             if(!CheckSenderScript(view, tx)){
                 return state.DoS(1, false, REJECT_INVALID, "bad-txns-invalid-sender-script");
             }
 
-            QtumDGP qtumDGP(globalState.get(), fGettingValuesDGP);
-            uint64_t minGasPrice = qtumDGP.getMinGasPrice(chainActive.Tip()->nHeight + 1);
-            uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(chainActive.Tip()->nHeight + 1);
+            AgricoinDGP agricoinDGP(globalState.get(), fGettingValuesDGP);
+            uint64_t minGasPrice = agricoinDGP.getMinGasPrice(chainActive.Tip()->nHeight + 1);
+            uint64_t blockGasLimit = agricoinDGP.getBlockGasLimit(chainActive.Tip()->nHeight + 1);
             size_t count = 0;
             for(const CTxOut& o : tx.vout)
                 count += o.scriptPubKey.HasOpCreate() || o.scriptPubKey.HasOpCall() ? 1 : 0;
-            QtumTxConverter converter(tx, NULL);
-            ExtractQtumTX resultConverter;
-            if(!converter.extractionQtumTransactions(resultConverter)){
+            AgricoinTxConverter converter(tx, NULL);
+            ExtractAgricoinTX resultConverter;
+            if(!converter.extractionAgricoinTransactions(resultConverter)){
                 return state.DoS(100, error("AcceptToMempool(): Contract transaction of the wrong format"), REJECT_INVALID, "bad-tx-bad-contract-format");
             }
-            std::vector<QtumTransaction> qtumTransactions = resultConverter.first;
-            std::vector<EthTransactionParams> qtumETP = resultConverter.second;
+            std::vector<AgricoinTransaction> agricoinTransactions = resultConverter.first;
+            std::vector<EthTransactionParams> agricoinETP = resultConverter.second;
 
             dev::u256 sumGas = dev::u256(0);
             dev::u256 gasAllTxs = dev::u256(0);
-            for(QtumTransaction qtumTransaction : qtumTransactions){
-                sumGas += qtumTransaction.gas() * qtumTransaction.gasPrice();
+            for(AgricoinTransaction agricoinTransaction : agricoinTransactions){
+                sumGas += agricoinTransaction.gas() * agricoinTransaction.gasPrice();
 
                 if(sumGas > dev::u256(INT64_MAX)) {
                     return state.DoS(100, error("AcceptToMempool(): Transaction's gas stipend overflows"), REJECT_INVALID, "bad-tx-gas-stipend-overflow");
@@ -794,11 +794,11 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
                 }
 
                 if(txMinGasPrice != 0) {
-                    txMinGasPrice = std::min(txMinGasPrice, qtumTransaction.gasPrice());
+                    txMinGasPrice = std::min(txMinGasPrice, agricoinTransaction.gasPrice());
                 } else {
-                    txMinGasPrice = qtumTransaction.gasPrice();
+                    txMinGasPrice = agricoinTransaction.gasPrice();
                 }
-                VersionVM v = qtumTransaction.getVersion();
+                VersionVM v = agricoinTransaction.getVersion();
                 if(v.format!=0)
                     return state.DoS(100, error("AcceptToMempool(): Contract execution uses unknown version format"), REJECT_INVALID, "bad-tx-version-format");
                 if(v.rootVM != 1)
@@ -809,29 +809,29 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
                     return state.DoS(100, error("AcceptToMempool(): Contract execution uses unknown flag options"), REJECT_INVALID, "bad-tx-version-flags");
 
                 //check gas limit is not less than minimum mempool gas limit
-                if(qtumTransaction.gas() < GetArg("-minmempoolgaslimit", MEMPOOL_MIN_GAS_LIMIT))
+                if(agricoinTransaction.gas() < GetArg("-minmempoolgaslimit", MEMPOOL_MIN_GAS_LIMIT))
                     return state.DoS(100, error("AcceptToMempool(): Contract execution has lower gas limit than allowed to accept into mempool"), REJECT_INVALID, "bad-tx-too-little-mempool-gas");
 
                 //check gas limit is not less than minimum gas limit (unless it is a no-exec tx)
-                if(qtumTransaction.gas() < MINIMUM_GAS_LIMIT && v.rootVM != 0)
+                if(agricoinTransaction.gas() < MINIMUM_GAS_LIMIT && v.rootVM != 0)
                     return state.DoS(100, error("AcceptToMempool(): Contract execution has lower gas limit than allowed"), REJECT_INVALID, "bad-tx-too-little-gas");
 
-                if(qtumTransaction.gas() > UINT32_MAX)
+                if(agricoinTransaction.gas() > UINT32_MAX)
                     return state.DoS(100, error("AcceptToMempool(): Contract execution can not specify greater gas limit than can fit in 32-bits"), REJECT_INVALID, "bad-tx-too-much-gas");
 
-                gasAllTxs += qtumTransaction.gas();
+                gasAllTxs += agricoinTransaction.gas();
                 if(gasAllTxs > dev::u256(blockGasLimit))
                     return state.DoS(1, false, REJECT_INVALID, "bad-txns-gas-exceeds-blockgaslimit");
 
                 //don't allow less than DGP set minimum gas price to prevent MPoS greedy mining/spammers
-                if(v.rootVM!=0 && (uint64_t)qtumTransaction.gasPrice() < minGasPrice)
+                if(v.rootVM!=0 && (uint64_t)agricoinTransaction.gasPrice() < minGasPrice)
                     return state.DoS(100, error("AcceptToMempool(): Contract execution has lower gas price than allowed"), REJECT_INVALID, "bad-tx-low-gas-price");
             }
 
-            if(!CheckMinGasPrice(qtumETP, minGasPrice))
+            if(!CheckMinGasPrice(agricoinETP, minGasPrice))
                 return state.DoS(100, false, REJECT_INVALID, "bad-txns-small-gasprice");
 
-            if(count > qtumTransactions.size())
+            if(count > agricoinTransactions.size())
                 return state.DoS(100, false, REJECT_INVALID, "bad-txns-incorrect-format");
         }
         ////////////////////////////////////////////////////////////
@@ -1098,7 +1098,7 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
         // Remove conflicting transactions from the mempool
         BOOST_FOREACH(const CTxMemPool::txiter it, allConflicting)
         {
-            LogPrint("mempool", "replacing tx %s with %s for %s QTUM additional fees, %d delta bytes\n",
+            LogPrint("mempool", "replacing tx %s with %s for %s AGRICOIN additional fees, %d delta bytes\n",
                     it->GetTx().GetHash().ToString(),
                     hash.ToString(),
                     FormatMoney(nModifiedFees - nConflictingFees),
@@ -1858,8 +1858,8 @@ static DisconnectResult DisconnectBlock(const CBlock& block, CValidationState& s
     // move best block pointer to prevout block
     view.SetBestBlock(pindex->pprev->GetBlockHash());
 
-    globalState->setRoot(uintToh256(pindex->pprev->hashStateRoot)); // qtum
-    globalState->setRootUTXO(uintToh256(pindex->pprev->hashUTXORoot)); // qtum
+    globalState->setRoot(uintToh256(pindex->pprev->hashStateRoot)); // agricoin
+    globalState->setRootUTXO(uintToh256(pindex->pprev->hashUTXORoot)); // agricoin
 
     if(pfClean == NULL && fLogEvents){
         pstorageresult->deleteResults(block.vtx);
@@ -1960,7 +1960,7 @@ static int64_t nTimeIndex = 0;
 static int64_t nTimeCallbacks = 0;
 static int64_t nTimeTotal = 0;
 
-/////////////////////////////////////////////////////////////////////// qtum
+/////////////////////////////////////////////////////////////////////// agricoin
 bool CheckSenderScript(const CCoinsViewCache& view, const CTransaction& tx){
     CScript script = view.AccessCoin(tx.vin[0].prevout).out.scriptPubKey;
     if(!script.IsPayToPubkeyHash() && !script.IsPayToPubkey()){
@@ -1983,8 +1983,8 @@ std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::v
         block.vtx.erase(block.vtx.begin()+1,block.vtx.end());
 
 
-    QtumDGP qtumDGP(globalState.get(), fGettingValuesDGP);
-    uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(chainActive.Tip()->nHeight + 1);
+    AgricoinDGP agricoinDGP(globalState.get(), fGettingValuesDGP);
+    uint64_t blockGasLimit = agricoinDGP.getBlockGasLimit(chainActive.Tip()->nHeight + 1);
 
     if(gasLimit == 0){
         gasLimit = blockGasLimit - 1;
@@ -1993,12 +1993,12 @@ std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::v
     tx.vout.push_back(CTxOut(0, CScript() << OP_DUP << OP_HASH160 << senderAddress.asBytes() << OP_EQUALVERIFY << OP_CHECKSIG));
     block.vtx.push_back(MakeTransactionRef(CTransaction(tx)));
  
-    QtumTransaction callTransaction(0, 1, dev::u256(gasLimit), addrContract, opcode, dev::u256(0));
+    AgricoinTransaction callTransaction(0, 1, dev::u256(gasLimit), addrContract, opcode, dev::u256(0));
     callTransaction.forceSender(senderAddress);
     callTransaction.setVersion(VersionVM::GetEVMDefault());
 
     
-    ByteCodeExec exec(block, std::vector<QtumTransaction>(1, callTransaction), blockGasLimit);
+    ByteCodeExec exec(block, std::vector<AgricoinTransaction>(1, callTransaction), blockGasLimit);
     exec.performByteCode(dev::eth::Permanence::Reverted);
     return exec.getResult();
 }
@@ -2168,12 +2168,12 @@ UniValue vmLogToJSON(const ResultExecute& execRes, const CTransaction& tx, const
 }
 
 void writeVMlog(const std::vector<ResultExecute>& res, const CTransaction& tx, const CBlock& block){
-    boost::filesystem::path qtumDir = GetDataDir() / "vmExecLogs.json";
+    boost::filesystem::path agricoinDir = GetDataDir() / "vmExecLogs.json";
     std::stringstream ss;
     if(fIsVMlogFile){
         ss << ",";
     } else {
-        std::ofstream file(qtumDir.string(), std::ios::out | std::ios::app);
+        std::ofstream file(agricoinDir.string(), std::ios::out | std::ios::app);
         file << "{\"logs\":[]}";
         file.close();
     }
@@ -2187,7 +2187,7 @@ void writeVMlog(const std::vector<ResultExecute>& res, const CTransaction& tx, c
         }
     }
     
-    std::ofstream file(qtumDir.string(), std::ios::in | std::ios::out);
+    std::ofstream file(agricoinDir.string(), std::ios::in | std::ios::out);
     file.seekp(-2, std::ios::end);
     file << ss.str();
     file.close();
@@ -2195,7 +2195,7 @@ void writeVMlog(const std::vector<ResultExecute>& res, const CTransaction& tx, c
 }
 
 bool ByteCodeExec::performByteCode(dev::eth::Permanence type){
-    for(QtumTransaction& tx : txs){
+    for(AgricoinTransaction& tx : txs){
         //validate VM version
         if(tx.getVersion().toRaw() != VersionVM::GetEVMDefault().toRaw()){
             return false;
@@ -2294,8 +2294,8 @@ dev::Address ByteCodeExec::EthAddrFromScript(const CScript& script){
     return dev::Address();
 }
 
-bool QtumTxConverter::extractionQtumTransactions(ExtractQtumTX& qtumtx){
-    std::vector<QtumTransaction> resultTX;
+bool AgricoinTxConverter::extractionAgricoinTransactions(ExtractAgricoinTX& agricointx){
+    std::vector<AgricoinTransaction> resultTX;
     std::vector<EthTransactionParams> resultETP;
     for(size_t i = 0; i < txBit.vout.size(); i++){
         if(txBit.vout[i].scriptPubKey.HasOpCreate() || txBit.vout[i].scriptPubKey.HasOpCall()){
@@ -2312,11 +2312,11 @@ bool QtumTxConverter::extractionQtumTransactions(ExtractQtumTX& qtumtx){
             }
         }
     }
-    qtumtx = std::make_pair(resultTX, resultETP);
+    agricointx = std::make_pair(resultTX, resultETP);
     return true;
 }
 
-bool QtumTxConverter::receiveStack(const CScript& scriptPubKey){
+bool AgricoinTxConverter::receiveStack(const CScript& scriptPubKey){
     EvalScript(stack, scriptPubKey, SCRIPT_EXEC_BYTE_CODE, BaseSignatureChecker(), SIGVERSION_BASE, nullptr);
     if (stack.empty())
         return false;
@@ -2333,7 +2333,7 @@ bool QtumTxConverter::receiveStack(const CScript& scriptPubKey){
     return true;
 }
 
-bool QtumTxConverter::parseEthTXParams(EthTransactionParams& params){
+bool AgricoinTxConverter::parseEthTXParams(EthTransactionParams& params){
     try{
         dev::Address receiveAddress;
         valtype vecAddr;
@@ -2381,13 +2381,13 @@ bool QtumTxConverter::parseEthTXParams(EthTransactionParams& params){
     }
 }
 
-QtumTransaction QtumTxConverter::createEthTX(const EthTransactionParams& etp, uint32_t nOut){
-    QtumTransaction txEth;
+AgricoinTransaction AgricoinTxConverter::createEthTX(const EthTransactionParams& etp, uint32_t nOut){
+    AgricoinTransaction txEth;
     if (etp.receiveAddress == dev::Address() && opcode != OP_CALL){
-        txEth = QtumTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.code, dev::u256(0));
+        txEth = AgricoinTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.code, dev::u256(0));
     }
     else{
-        txEth = QtumTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.receiveAddress, etp.code, dev::u256(0));
+        txEth = AgricoinTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.receiveAddress, etp.code, dev::u256(0));
     }
     dev::Address sender(GetSenderAddress(txBit, view, blockTransactions));
     txEth.forceSender(sender);
@@ -2406,12 +2406,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
     int64_t nTimeStart = GetTimeMicros();
 
-    ///////////////////////////////////////////////// // qtum
-    QtumDGP qtumDGP(globalState.get(), fGettingValuesDGP);
-    globalSealEngine->setQtumSchedule(qtumDGP.getGasSchedule(pindex->nHeight + 1));
-    uint32_t sizeBlockDGP = qtumDGP.getBlockSize(pindex->nHeight + 1);
-    uint64_t minGasPrice = qtumDGP.getMinGasPrice(pindex->nHeight + 1);
-    uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(pindex->nHeight + 1);
+    ///////////////////////////////////////////////// // agricoin
+    AgricoinDGP agricoinDGP(globalState.get(), fGettingValuesDGP);
+    globalSealEngine->setAgricoinSchedule(agricoinDGP.getGasSchedule(pindex->nHeight + 1));
+    uint32_t sizeBlockDGP = agricoinDGP.getBlockSize(pindex->nHeight + 1);
+    uint64_t minGasPrice = agricoinDGP.getMinGasPrice(pindex->nHeight + 1);
+    uint64_t blockGasLimit = agricoinDGP.getBlockGasLimit(pindex->nHeight + 1);
     dgpMaxBlockSize = sizeBlockDGP ? sizeBlockDGP : dgpMaxBlockSize;
     updateBlockSizeParams(dgpMaxBlockSize);
     CBlock checkBlock(block.GetBlockHeader());
@@ -2421,7 +2421,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     /////////////////////////////////////////////////
 
     // Move this check from CheckBlock to ConnectBlock as it depends on DGP values
-    if (block.vtx.empty() || block.vtx.size() > dgpMaxBlockSize || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > dgpMaxBlockSize) // qtum
+    if (block.vtx.empty() || block.vtx.size() > dgpMaxBlockSize || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > dgpMaxBlockSize) // agricoin
         return state.DoS(100, false, REJECT_INVALID, "bad-blk-length", false, "size limits failed");
 
     // Move this check from ContextualCheckBlock to ConnectBlock as it depends on DGP values
@@ -2564,7 +2564,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     vPos.reserve(block.vtx.size());
     blockundo.vtxundo.reserve(block.vtx.size() - 1);
 
-    ///////////////////////////////////////////////////////// // qtum
+    ///////////////////////////////////////////////////////// // agricoin
     std::map<dev::Address, std::pair<CHeightTxIndexKey, std::vector<uint256>>> heightIndexes;
     /////////////////////////////////////////////////////////
 
@@ -2651,7 +2651,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             nValueOut += nTxValueOut;
         }
 
-///////////////////////////////////////////////////////////////////////////////////////// qtum
+///////////////////////////////////////////////////////////////////////////////////////// agricoin
         if(!tx.HasOpSpend()){
             checkBlock.vtx.push_back(block.vtx[i]);
         }
@@ -2661,25 +2661,25 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 return state.DoS(100, false, REJECT_INVALID, "bad-txns-invalid-sender-script");
             }
 
-            QtumTxConverter convert(tx, &view, &block.vtx);
+            AgricoinTxConverter convert(tx, &view, &block.vtx);
 
-            ExtractQtumTX resultConvertQtumTX;
-            if(!convert.extractionQtumTransactions(resultConvertQtumTX)){
+            ExtractAgricoinTX resultConvertAgricoinTX;
+            if(!convert.extractionAgricoinTransactions(resultConvertAgricoinTX)){
                 return state.DoS(100, error("ConnectBlock(): Contract transaction of the wrong format"), REJECT_INVALID, "bad-tx-bad-contract-format");
             }
-            if(!CheckMinGasPrice(resultConvertQtumTX.second, minGasPrice))
+            if(!CheckMinGasPrice(resultConvertAgricoinTX.second, minGasPrice))
                 return state.DoS(100, error("ConnectBlock(): Contract execution has lower gas price than allowed"), REJECT_INVALID, "bad-tx-low-gas-price");
 
 
             dev::u256 gasAllTxs = dev::u256(0);
-            ByteCodeExec exec(block, resultConvertQtumTX.first, blockGasLimit);
+            ByteCodeExec exec(block, resultConvertAgricoinTX.first, blockGasLimit);
             //validate VM version and other ETH params before execution
             //Reject anything unknown (could be changed later by DGP)
             //TODO evaluate if this should be relaxed for soft-fork purposes
             bool nonZeroVersion=false;
             dev::u256 sumGas = dev::u256(0);
             CAmount nTxFee = view.GetValueIn(tx)-tx.GetValueOut();
-            for(QtumTransaction& qtx : resultConvertQtumTX.first){
+            for(AgricoinTransaction& qtx : resultConvertAgricoinTX.first){
                 sumGas += qtx.gas() * qtx.gasPrice();
 
                 if(sumGas > dev::u256(INT64_MAX)) {
@@ -2745,13 +2745,13 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             std::vector<TransactionReceiptInfo> tri;
             if (fLogEvents)
             {
-                for(size_t k = 0; k < resultConvertQtumTX.first.size(); k ++){
+                for(size_t k = 0; k < resultConvertAgricoinTX.first.size(); k ++){
                     dev::Address key = resultExec[k].execRes.newAddress;
                     if(!heightIndexes.count(key)){
                         heightIndexes[key].first = CHeightTxIndexKey(pindex->nHeight, resultExec[k].execRes.newAddress);
                     }
                     heightIndexes[key].second.push_back(tx.GetHash());
-                    tri.push_back(TransactionReceiptInfo{block.GetHash(), uint32_t(pindex->nHeight), tx.GetHash(), uint32_t(i), resultConvertQtumTX.first[k].from(), resultConvertQtumTX.first[k].to(),
+                    tri.push_back(TransactionReceiptInfo{block.GetHash(), uint32_t(pindex->nHeight), tx.GetHash(), uint32_t(i), resultConvertAgricoinTX.first[k].from(), resultConvertAgricoinTX.first[k].to(),
                                 countCumulativeGasUsed, uint64_t(resultExec[k].execRes.gasUsed), resultExec[k].execRes.newAddress, resultExec[k].txRec.log(), resultExec[k].execRes.excepted});
                 }
 
@@ -2802,7 +2802,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     int64_t nTime4 = GetTimeMicros(); nTimeVerify += nTime4 - nTime2;
     LogPrint("bench", "    - Verify %u txins: %.2fms (%.3fms/txin) [%.2fs]\n", nInputs - 1, 0.001 * (nTime4 - nTime2), nInputs <= 1 ? 0 : 0.001 * (nTime4 - nTime2) / (nInputs-1), nTimeVerify * 0.000001);
 
-////////////////////////////////////////////////////////////////// // qtum
+////////////////////////////////////////////////////////////////// // agricoin
     checkBlock.hashMerkleRoot = BlockMerkleRoot(checkBlock);
     checkBlock.hashStateRoot = h256Touint(globalState->rootHash());
     checkBlock.hashUTXORoot = h256Touint(globalState->rootHashUTXO());
@@ -3232,8 +3232,8 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     {
         CCoinsViewCache view(pcoinsTip);
 
-        dev::h256 oldHashStateRoot(globalState->rootHash()); // qtum
-        dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // qtum
+        dev::h256 oldHashStateRoot(globalState->rootHash()); // agricoin
+        dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // agricoin
 
         bool rv = ConnectBlock(blockConnecting, state, pindexNew, view, chainparams);
         GetMainSignals().BlockChecked(blockConnecting, state);
@@ -3241,8 +3241,8 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
             if (state.IsInvalid())
                 InvalidBlockFound(pindexNew, state);
 
-            globalState->setRoot(oldHashStateRoot); // qtum
-            globalState->setRootUTXO(oldHashUTXORoot); // qtum
+            globalState->setRoot(oldHashStateRoot); // agricoin
+            globalState->setRootUTXO(oldHashUTXORoot); // agricoin
 
             return error("ConnectTip(): ConnectBlock %s failed", pindexNew->GetBlockHash().ToString());
         }
@@ -4520,13 +4520,13 @@ bool TestBlockValidity(CValidationState& state, const CChainParams& chainparams,
     if (!ContextualCheckBlock(block, state, chainparams.GetConsensus(), pindexPrev))
         return error("%s: Consensus::ContextualCheckBlock: %s", __func__, FormatStateMessage(state));
 
-    dev::h256 oldHashStateRoot(globalState->rootHash()); // qtum
-    dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // qtum
+    dev::h256 oldHashStateRoot(globalState->rootHash()); // agricoin
+    dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // agricoin
     
     if (!ConnectBlock(block, state, &indexDummy, viewNew, chainparams, true)){
         
-        globalState->setRoot(oldHashStateRoot); // qtum
-        globalState->setRootUTXO(oldHashUTXORoot); // qtum
+        globalState->setRoot(oldHashStateRoot); // agricoin
+        globalState->setRootUTXO(oldHashUTXORoot); // agricoin
         
         return false;
     }
@@ -4880,10 +4880,10 @@ bool CVerifyDB::VerifyDB(const CChainParams& chainparams, CCoinsView *coinsview,
     CValidationState state;
     int reportDone = 0;
 
-////////////////////////////////////////////////////////////////////////// // qtum
+////////////////////////////////////////////////////////////////////////// // agricoin
     dev::h256 oldHashStateRoot(globalState->rootHash());
     dev::h256 oldHashUTXORoot(globalState->rootHashUTXO());
-    QtumDGP qtumDGP(globalState.get(), fGettingValuesDGP);
+    AgricoinDGP agricoinDGP(globalState.get(), fGettingValuesDGP);
 //////////////////////////////////////////////////////////////////////////
 
     LogPrintf("[0%%]...");
@@ -4905,8 +4905,8 @@ bool CVerifyDB::VerifyDB(const CChainParams& chainparams, CCoinsView *coinsview,
             break;
         }
 
-        ///////////////////////////////////////////////////////////////////// // qtum
-        uint32_t sizeBlockDGP = qtumDGP.getBlockSize(pindex->nHeight);
+        ///////////////////////////////////////////////////////////////////// // agricoin
+        uint32_t sizeBlockDGP = agricoinDGP.getBlockSize(pindex->nHeight);
         dgpMaxBlockSize = sizeBlockDGP ? sizeBlockDGP : dgpMaxBlockSize;
         updateBlockSizeParams(dgpMaxBlockSize);
         /////////////////////////////////////////////////////////////////////
@@ -4960,20 +4960,20 @@ bool CVerifyDB::VerifyDB(const CChainParams& chainparams, CCoinsView *coinsview,
             if (!ReadBlockFromDisk(block, pindex, chainparams.GetConsensus()))
                 return error("VerifyDB(): *** ReadBlockFromDisk failed at %d, hash=%s", pindex->nHeight, pindex->GetBlockHash().ToString());
 
-            dev::h256 oldHashStateRoot(globalState->rootHash()); // qtum
-            dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // qtum
+            dev::h256 oldHashStateRoot(globalState->rootHash()); // agricoin
+            dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // agricoin
 
             if (!ConnectBlock(block, state, pindex, coins, chainparams)){
 
-                globalState->setRoot(oldHashStateRoot); // qtum
-                globalState->setRootUTXO(oldHashUTXORoot); // qtum
+                globalState->setRoot(oldHashStateRoot); // agricoin
+                globalState->setRootUTXO(oldHashUTXORoot); // agricoin
 
                 return error("VerifyDB(): *** found unconnectable block at %d, hash=%s", pindex->nHeight, pindex->GetBlockHash().ToString());
             }
         }
     } else {
-        globalState->setRoot(oldHashStateRoot); // qtum
-        globalState->setRootUTXO(oldHashUTXORoot); // qtum
+        globalState->setRoot(oldHashStateRoot); // agricoin
+        globalState->setRootUTXO(oldHashUTXORoot); // agricoin
     }
 
     LogPrintf("[DONE].\n");
@@ -5215,7 +5215,7 @@ bool LoadExternalBlockFile(const CChainParams& chainparams, FILE* fileIn, CDiskB
                 }
 
                 // In Bitcoin this only needed to be done for genesis and at the end of block indexing
-                // But for Qtum PoS we need to sync this after every block to ensure txdb is populated for
+                // But for Agricoin PoS we need to sync this after every block to ensure txdb is populated for
                 // validating PoS proofs
                 {
                     CValidationState state;

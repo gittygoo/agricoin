@@ -7,17 +7,17 @@ define(_CLIENT_VERSION_BUILD, 1)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2017)
 define(_COPYRIGHT_HOLDERS,[The %s developers])
-define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Qtum Core]])
-AC_INIT([Qtum Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[https://github.com/qtumproject/qtum/issues],[qtum],[https://qtum.org/])
+define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Agricoin Core]])
+AC_INIT([Agricoin Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[https://github.com/agricoinproject/agricoin/issues],[agricoin],[https://agricoin.org/])
 AC_CONFIG_SRCDIR([src/validation.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-BITCOIN_DAEMON_NAME=qtumd
-BITCOIN_GUI_NAME=qtum-qt
-BITCOIN_CLI_NAME=qtum-cli
-BITCOIN_TX_NAME=qtum-tx
+BITCOIN_DAEMON_NAME=agricoind
+BITCOIN_GUI_NAME=agricoin-qt
+BITCOIN_CLI_NAME=agricoin-cli
+BITCOIN_TX_NAME=agricoin-tx
 
 AC_CANONICAL_HOST
 
@@ -216,7 +216,7 @@ if test "x$enable_debug" = xyes; then
     fi
 fi
 
-CPPFLAGS="$CPPFLAGS -DQTUM_BUILD"
+CPPFLAGS="$CPPFLAGS -DAGRICOIN_BUILD"
 
 ERROR_CXXFLAGS=
 if test "x$enable_werror" = "xyes"; then

@@ -7,13 +7,13 @@ from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 from test_framework.address import *
 import sys
 import time
 
 
-class QtumDGPTest(BitcoinTestFramework):
+class AgricoinDGPTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -1124,4 +1124,4 @@ class QtumDGPTest(BitcoinTestFramework):
         state.assert_state()
 
 if __name__ == '__main__':
-    QtumDGPTest().main()
+    AgricoinDGPTest().main()

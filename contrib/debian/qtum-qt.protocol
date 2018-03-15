@@ -1,6 +1,6 @@
 [Protocol]
-exec=qtum-qt '%u'
-protocol=qtum
+exec=agricoin-qt '%u'
+protocol=agricoin
 input=none
 output=none
 helper=true

@@ -5,12 +5,12 @@ from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
 from test_framework.address import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 import sys
 import random
 import time
 
-class QtumPrematureCoinstakeSpendTest(BitcoinTestFramework):
+class AgricoinPrematureCoinstakeSpendTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -76,4 +76,4 @@ class QtumPrematureCoinstakeSpendTest(BitcoinTestFramework):
         self.assert_spend_of_coinstake_at_height(height=4502, should_accept=False)
 
 if __name__ == '__main__':
-    QtumPrematureCoinstakeSpendTest().main()
+    AgricoinPrematureCoinstakeSpendTest().main()

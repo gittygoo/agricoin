@@ -4,11 +4,11 @@ from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 from test_framework.address import *
 import time
 
-class QtumManyValueRefundsFromSameTxTest(BitcoinTestFramework):
+class AgricoinManyValueRefundsFromSameTxTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -33,8 +33,8 @@ class QtumManyValueRefundsFromSameTxTest(BitcoinTestFramework):
         tx = CTransaction()
         tx.vin = [make_vin(self.node, int(20000*COIN))]
         tx.vout = []
-        tx.vout.append(CTxOut(int(COIN), CScript([b"\x04", CScriptNum(100000), CScriptNum(QTUM_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(contract_address), OP_CALL])))
-        tx.vout.append(CTxOut(int(COIN), CScript([b"\x04", CScriptNum(100000), CScriptNum(QTUM_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(contract_address), OP_CALL])))
+        tx.vout.append(CTxOut(int(COIN), CScript([b"\x04", CScriptNum(100000), CScriptNum(AGRICOIN_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(contract_address), OP_CALL])))
+        tx.vout.append(CTxOut(int(COIN), CScript([b"\x04", CScriptNum(100000), CScriptNum(AGRICOIN_MIN_GAS_PRICE), hex_str_to_bytes("00"), hex_str_to_bytes(contract_address), OP_CALL])))
 
         signed_tx_raw = self.node.signrawtransaction(bytes_to_hex_str(tx.serialize()))['hex']
         self.node.sendrawtransaction(signed_tx_raw)
@@ -43,4 +43,4 @@ class QtumManyValueRefundsFromSameTxTest(BitcoinTestFramework):
         assert_equal(self.node.getblockcount(), block_count+1)
 
 if __name__ == '__main__':
-    QtumManyValueRefundsFromSameTxTest().main()
+    AgricoinManyValueRefundsFromSameTxTest().main()

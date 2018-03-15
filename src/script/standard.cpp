@@ -11,8 +11,8 @@
 #include "utilstrencodings.h"
 
 #include <boost/foreach.hpp>
-#include <qtum/qtumstate.h>
-#include <qtum/qtumtransaction.h>
+#include <agricoin/agricoinstate.h>
+#include <agricoin/agricointransaction.h>
 #include <validation.h>
 
 using namespace std;
@@ -184,7 +184,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                 else
                     break;
             }
-            /////////////////////////////////////////////////////////// qtum
+            /////////////////////////////////////////////////////////// agricoin
             else if (opcode2 == OP_VERSION)
             {
                 if(0 <= opcode1 && opcode1 <= OP_PUSHDATA4)

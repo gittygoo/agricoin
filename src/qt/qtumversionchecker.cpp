@@ -1,4 +1,4 @@
-#include "qtumversionchecker.h"
+#include "agricoinversionchecker.h"
 #include "../clientversion.h"
 
 #include <boost/foreach.hpp>
@@ -10,19 +10,19 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatchIterator>
 
-#define paternVersion "qtum-([0-9]+\\.)?([0-9]+\\.)?([0-9]+)-"
+#define paternVersion "agricoin-([0-9]+\\.)?([0-9]+\\.)?([0-9]+)-"
 
-QtumVersionChecker::QtumVersionChecker(QObject *parent) : QObject(parent)
+AgricoinVersionChecker::AgricoinVersionChecker(QObject *parent) : QObject(parent)
 {
     currentVersion = Version(CLIENT_VERSION_MAJOR, CLIENT_VERSION_MINOR, CLIENT_VERSION_REVISION);
 }
 
-QtumVersionChecker::~QtumVersionChecker()
+AgricoinVersionChecker::~AgricoinVersionChecker()
 {
 
 }
 
-bool QtumVersionChecker::newVersionAvailable()
+bool AgricoinVersionChecker::newVersionAvailable()
 {
     Version maxReleaseVersion = getMaxReleaseVersion();
 
@@ -36,10 +36,10 @@ bool QtumVersionChecker::newVersionAvailable()
     }
 }
 
-QList<Version> QtumVersionChecker::getVersions()
+QList<Version> AgricoinVersionChecker::getVersions()
 {
     QNetworkAccessManager manager;
-    QNetworkReply *response = manager.get(QNetworkRequest(QUrl(QTUM_RELEASES)));
+    QNetworkReply *response = manager.get(QNetworkRequest(QUrl(AGRICOIN_RELEASES)));
     QEventLoop event;
     connect(response, SIGNAL(finished()), &event, SLOT(quit()));
     event.exec();
@@ -62,7 +62,7 @@ QList<Version> QtumVersionChecker::getVersions()
     return versions;
 }
 
-Version QtumVersionChecker::getMaxReleaseVersion()
+Version AgricoinVersionChecker::getMaxReleaseVersion()
 {
     QList<Version> versions = getVersions();
     Version maxVersion;

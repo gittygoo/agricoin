@@ -5,12 +5,12 @@ from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
 from test_framework.address import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 import sys
 import random
 import time
 
-class QtumIgnoreMPOSParticipantRewardTest(BitcoinTestFramework):
+class AgricoinIgnoreMPOSParticipantRewardTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -96,4 +96,4 @@ class QtumIgnoreMPOSParticipantRewardTest(BitcoinTestFramework):
         assert_equal(self.node.getblockcount(), blockcount)
         
 if __name__ == '__main__':
-    QtumIgnoreMPOSParticipantRewardTest().main()
+    AgricoinIgnoreMPOSParticipantRewardTest().main()

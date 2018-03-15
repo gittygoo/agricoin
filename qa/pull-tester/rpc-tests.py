@@ -76,7 +76,7 @@ for arg in sys.argv[1:]:
 
 #Set env vars
 if "BITCOIND" not in os.environ:
-    os.environ["BITCOIND"] = BUILDDIR + '/src/qtumd' + EXEEXT
+    os.environ["BITCOIND"] = BUILDDIR + '/src/agricoind' + EXEEXT
 
 if EXEEXT == ".exe" and "-win" not in opts:
     # https://github.com/bitcoin/bitcoin/commit/d52802551752140cf41f0d9a225a43e84404d3e9
@@ -159,37 +159,37 @@ testScripts = [
     'listsinceblock.py',
     'p2p-leaktests.py',
 
-    #qtum
-    'qtum-8mb-block.py',
-    'qtum-dgp-gas-price-lingering-mempool-tx.py',
-    'qtum-opcreate.py',
-    'qtum-block-header.py',
-    'qtum-dgp.py',
-    'qtum-pos.py',
-    'qtum-callcontract.py',
-    'qtum-gas-limit.py',
-    'qtum-pos-segwit.py',
-    'qtum-combined-outputs-exceed-gas-limit.py',
-    'qtum-globals-state-changer.py',
-    'qtum-sendtocontract.py',
-    'qtum-condensing-txs.py',
-    'qtum-identical-refunds.py',
-    'qtum-soft-block-gas-limits.py',
-    'qtum-createcontract.py',
-    'qtum-many-value-refunds-from-same-tx.py',
-    'qtum-spend-op-call.py',
-    'qtum-create-eth-op-code.py',
-    'qtum-no-exec-call-disabled.py',
-    'qtum-state-root.py',
-    'qtum-dgp-block-size-restart.py',
-    'qtum-null-sender.py',
-    'qtum-transaction-prioritization.py',
-    'qtum-dgp-block-size-sync.py',
-    'qtum-opcall.py',
-    'qtum-assign-mpos-fees-to-gas-refund.py',
-    'qtum-gas-limit-overflow.py',
-    'qtum-immature-coinstake-spend.py',
-    'qtum-ignore-mpos-participant-reward.py',
+    #agricoin
+    'agricoin-8mb-block.py',
+    'agricoin-dgp-gas-price-lingering-mempool-tx.py',
+    'agricoin-opcreate.py',
+    'agricoin-block-header.py',
+    'agricoin-dgp.py',
+    'agricoin-pos.py',
+    'agricoin-callcontract.py',
+    'agricoin-gas-limit.py',
+    'agricoin-pos-segwit.py',
+    'agricoin-combined-outputs-exceed-gas-limit.py',
+    'agricoin-globals-state-changer.py',
+    'agricoin-sendtocontract.py',
+    'agricoin-condensing-txs.py',
+    'agricoin-identical-refunds.py',
+    'agricoin-soft-block-gas-limits.py',
+    'agricoin-createcontract.py',
+    'agricoin-many-value-refunds-from-same-tx.py',
+    'agricoin-spend-op-call.py',
+    'agricoin-create-eth-op-code.py',
+    'agricoin-no-exec-call-disabled.py',
+    'agricoin-state-root.py',
+    'agricoin-dgp-block-size-restart.py',
+    'agricoin-null-sender.py',
+    'agricoin-transaction-prioritization.py',
+    'agricoin-dgp-block-size-sync.py',
+    'agricoin-opcall.py',
+    'agricoin-assign-mpos-fees-to-gas-refund.py',
+    'agricoin-gas-limit-overflow.py',
+    'agricoin-immature-coinstake-spend.py',
+    'agricoin-ignore-mpos-participant-reward.py',
 ]
 
 

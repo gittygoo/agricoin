@@ -1,9 +1,9 @@
-#ifndef QTUMVERSIONCHECKER_H
-#define QTUMVERSIONCHECKER_H
+#ifndef AGRICOINVERSIONCHECKER_H
+#define AGRICOINVERSIONCHECKER_H
 
 #include <QObject>
 
-#define QTUM_RELEASES "https://github.com/qtumproject/qtum/releases"
+#define AGRICOIN_RELEASES "https://github.com/agricoinproject/agricoin/releases"
 
 class Version {
 
@@ -81,12 +81,12 @@ public:
     }
 };
 
-class QtumVersionChecker : public QObject
+class AgricoinVersionChecker : public QObject
 {
     Q_OBJECT
 public:
-    explicit QtumVersionChecker(QObject *parent = 0);
-    ~QtumVersionChecker();
+    explicit AgricoinVersionChecker(QObject *parent = 0);
+    ~AgricoinVersionChecker();
 
     bool newVersionAvailable();
 
@@ -97,4 +97,4 @@ private:
     Version currentVersion;
 };
 
-#endif // QTUMVERSIONCHECKER_H
+#endif // AGRICOINVERSIONCHECKER_H

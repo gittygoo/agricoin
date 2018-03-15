@@ -5,13 +5,13 @@ from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
 from test_framework.address import *
-from test_framework.qtum import *
+from test_framework.agricoin import *
 import sys
 import random
 import time
 import io
 
-class QtumGasLimitOverflowTest(BitcoinTestFramework):
+class AgricoinGasLimitOverflowTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -36,4 +36,4 @@ class QtumGasLimitOverflowTest(BitcoinTestFramework):
         self.node.generate(1)
 
 if __name__ == '__main__':
-    QtumGasLimitOverflowTest().main()
+    AgricoinGasLimitOverflowTest().main()
